@@ -78,17 +78,12 @@ Aurora:
   input-ink-color: "#b5b3b3"
   input-disabled-fill-color: "rgba(0, 0, 0, 0.33)"
   input-disabled-ink-color: "#ff0000"
-  ### Edit Mode transparency ###
   app-header-edit-background-color: "rgb(100, 100, 100, 0.15)"
-
-# Two layers are one too much in Edit mode
 
   card-mod-root: |
     paper-tabs {
       background-color: transparent !important;
     }
-
-# Sidebar buttons in darker than background of it
 
   card-mod-sidebar: |
     paper-icon-item[role=option], paper-icon-item[aria-role=option] {
