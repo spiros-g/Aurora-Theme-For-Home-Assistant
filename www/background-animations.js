@@ -1,154 +1,126 @@
 console.info(
-  `%c  BACKGROUND-ANIMATIONS  %c  version 1.0  %c  by Spiros G  `,
+  `%c  BACKGROUND-ANIMATIONS  %c  By Spiros G.  `,
   'color: orange; font-weight: bold; background: black',
-  'color: white; font-weight: bold; background: dimgray',
-  'color: white; font-weight: bold; background: rgb(71, 170, 238)',
+  'color: white; font-weight: bold; background: dimgray'
 );
 
-const style = document.createElement('style');
-style.textContent = `
-    .wrapper {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        filter: blur(150px);
-        pointer-events: none;
-    }
-    @media (max-width: 768px) {
-    .wrapper {
-        width: 100%;
-        height: 100%;
-        filter: blur(50px);  /* Reduce the blur effect for smaller screens */
-    }
+let vantaEffect = null;
+const MAX_RETRIES = 25;
+let retryCount = 0;
+const isMobile = window.innerWidth < 768;
+
+function isWebGLAvailable() {
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(
+      window.WebGLRenderingContext &&
+      (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+    );
+  } catch (e) {
+    return false;
+  }
 }
-    
-    .gradient {
-        position: absolute;
-        border-radius: 100%;
-        opacity: 0.6;
-        mix-blend-mode: screen;
-        animation-iteration-count: infinite;
-        animation-timing-function: cubic-bezier(0.1, 0, 0.9, 1);
-    }
-    
-    .gradient-1 {
-        background: rgb(63, 141, 212) none repeat scroll 0% 0% / auto padding-box border-box;
-        width: 700px;
-        height: 700px;
-        animation-duration: 11s;
-        opacity: 0.6;
-        left: 60%;
-        top: 40%;
-        z-index: -2;
-        animation-name: animation-gradient-1;
-    }
-    .gradient-2 {
-        background: rgb(136, 162, 89) none repeat scroll 0% 0% / auto padding-box border-box;
-        width: 600px;
-        height: 600px;
-        animation-duration: 11s;
-        opacity: 0.6;
-        left: 40%;
-        top: 60%;
-        z-index: -1;
-        animation-name: animation-gradient-2;
-    }
-    .gradient-3 {
-        background: rgb(29, 184, 193) none repeat scroll 0% 0% / auto padding-box border-box;
-        width: 500px;
-        height: 500px;
-        animation-duration: 11s;
-        opacity: 0.6;
-        left: 50%;
-        top: 50%;
-        z-index: -3;
-        animation-name: animation-gradient-3;
-    }
-    
-    @keyframes animation-gradient-1 {
-        0% {
-            transform: translateY(-50%) translateX(-50%) rotate(-20deg) translateX(20%);
-        }
-        25% {
-            transform: translateY(-50%) translateX(-50%) skew(-15deg, -15deg)
-                rotate(80deg) translateX(30%);
-        }
-        50% {
-            transform: translateY(-50%) translateX(-50%) rotate(180deg) translateX(25%);
-        }
-        75% {
-            transform: translateY(-50%) translateX(-50%) skew(15deg, 15deg)
-                rotate(240deg) translateX(15%);
-        }
-        100% {
-            transform: translateY(-50%) translateX(-50%) rotate(340deg) translateX(20%);
-        }
-    }
-    
-    @keyframes animation-gradient-2 {
-        0% {
-            transform: translateY(-50%) translateX(-50%) rotate(40deg) translateX(-20%);
-        }
-        25% {
-            transform: translateY(-50%) translateX(-50%) skew(15deg, 15deg)
-                rotate(110deg) translateX(-5%);
-        }
-        50% {
-            transform: translateY(-50%) translateX(-50%) rotate(210deg) translateX(-35%);
-        }
-        75% {
-            transform: translateY(-50%) translateX(-50%) skew(-15deg, -15deg)
-                rotate(300deg) translateX(-10%);
-        }
-        100% {
-            transform: translateY(-50%) translateX(-50%) rotate(400deg) translateX(-20%);
-        }
-    }
-    
-    @keyframes animation-gradient-3 {
-        0% {
-            transform: translateY(-50%) translateX(-50%) translateX(-15%)
-                translateY(10%);
-        }
-        20% {
-            transform: translateY(-50%) translateX(-50%) translateX(20%)
-                translateY(-30%);
-        }
-        40% {
-            transform: translateY(-50%) translateX(-50%) translateX(-25%)
-                translateY(-15%);
-        }
-        60% {
-            transform: translateY(-50%) translateX(-50%) translateX(30%) translateY(20%);
-        }
-        80% {
-            transform: translateY(-50%) translateX(-50%) translateX(5%) translateY(35%);
-        }
-        100% {
-            transform: translateY(-50%) translateX(-50%) translateX(-15%)
-                translateY(10%);
-        }
-    }
-`;
 
-document.head.appendChild(style);
+function isTHREEReady() {
+  try {
+    return (
+      window.THREE &&
+      typeof window.THREE.Color === 'function' &&
+      typeof window.THREE.WebGLRenderer === 'function'
+    );
+  } catch (e) {
+    return false;
+  }
+}
 
-const wrapper = document.createElement('div');
-wrapper.className = 'wrapper';
+function fixVantaCanvas() {
+  const canvas = document.querySelector('body > canvas');
+  if (!canvas) return;
+  canvas.style.cssText = `
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+  `;
+}
 
-const gradient1 = document.createElement('div');
-gradient1.className = 'gradient gradient-1';
-wrapper.appendChild(gradient1);
+function initVanta() {
+  if (document.body.dataset.vantaInitialized) return;
 
-const gradient2 = document.createElement('div');
-gradient2.className = 'gradient gradient-2';
-wrapper.appendChild(gradient2);
+  if (!isWebGLAvailable()) {
+    console.warn('[VANTA] WebGL not available. Skipping.');
+    return;
+  }
 
-const gradient3 = document.createElement('div');
-gradient3.className = 'gradient gradient-3';
-wrapper.appendChild(gradient3);
+  if (!window.VANTA || !isTHREEReady() || !document.body) {
+    if (++retryCount > MAX_RETRIES) {
+      console.warn('[VANTA] Dependencies never loaded. Giving up.');
+      return;
+    }
+    setTimeout(initVanta, 200);
+    return;
+  }
 
-document.body.insertBefore(wrapper, document.body.firstChild);
+  document.body.style.background = '#000000';
+  document.body.dataset.vantaInitialized = "true";
+
+  try {
+    vantaEffect = VANTA.CELLS({
+      el: document.body,
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      backgroundColor: 0x000000,
+      scale: 1.00,
+      color1: 0x18701,
+      color2: 0x4035f2,
+      size: isMobile ? 0.80 : 1.40,
+      speed: isMobile ? 2.00 : 4.10,
+      THREE: window.THREE,
+      pixelRatio: Math.min(window.devicePixelRatio || 1, 2)
+    });
+
+    fixVantaCanvas();
+    setTimeout(fixVantaCanvas, 500);
+    setTimeout(fixVantaCanvas, 1500);
+
+  } catch (err) {
+    console.warn('[VANTA] Init failed, will retry:', err.message);
+    delete document.body.dataset.vantaInitialized;
+    retryCount = 0;
+    setTimeout(initVanta, 500);
+    return;
+  }
+
+  window.addEventListener("resize", () => {
+    vantaEffect?.resize?.();
+    fixVantaCanvas();
+  });
+}
+
+function destroyVanta() {
+  if (vantaEffect) {
+    vantaEffect.destroy();
+    vantaEffect = null;
+    delete document.body.dataset.vantaInitialized;
+  }
+}
+
+if (document.readyState === 'complete') {
+  initVanta();
+} else {
+  window.addEventListener("load", initVanta);
+}
+
+const observer = new MutationObserver(() => {
+  if (!document.body.dataset.vantaInitialized) {
+    initVanta();
+  } else {
+    observer.disconnect();
+  }
+});
+
+observer.observe(document.body, { childList: true, subtree: false });
