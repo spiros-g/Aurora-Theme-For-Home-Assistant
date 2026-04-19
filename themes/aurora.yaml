@@ -1,198 +1,575 @@
-# Aurora Glass Theme for Home Assistant
-# Version 2.0 — Glassmorphism Edition
-# Original by Spiros G · Glass adaptation by Claude
+# Aurora Glass — Home Assistant Theme
+# Version 3.0 — Final
 #
-# REQUIREMENTS:
-#   - HACS frontend plugin: card-mod
-#   - A background image or CSS gradient set on your Lovelace view
-#     (see card-mod-root below — it injects the gradient automatically)
+# By Spiros G.
+# Glassmorphism edition built on top of Vanta.js CELLS background
 #
-# INSTALLATION:
-#   1. Place this file in /config/themes/aurora-glass.yaml
-#   2. In configuration.yaml ensure: frontend: themes: !include_dir_merge_named themes
-#   3. Restart Home Assistant
-#   4. Profile → Theme → select "Aurora Glass"
+# Needs: card-mod (HACS > Frontend)
+# Background: background-animations.js with Vanta CELLS running
+#
+# Install: drop this file in /config/themes/aurora-glass.yaml
+# In configuration.yaml add:  frontend: themes: !include_dir_merge_named themes
+# Restart HA, then: Profile > Theme > Aurora Glass
 
 Aurora Glass:
-  ### ─────────────────────────────────────────
-  ### Effects
-  ### ─────────────────────────────────────────
-  dialog-backdrop-filter: "blur(20px)"
+
+  # =====================================================================
+  # OVERLAY / DIALOG BACKDROP
+  # =====================================================================
+  dialog-backdrop-filter: "blur(24px)"
   iron-overlay-backdrop-opacity: "1"
-  iron-overlay-backdrop-background-color: "rgba(0, 0, 0, 0.55)"
+  iron-overlay-backdrop-background-color: "rgba(0, 0, 0, 0.65)"
   card-mod-theme: "Aurora Glass"
 
-  ### ─────────────────────────────────────────
-  ### Header
-  ### ─────────────────────────────────────────
+
+  # =====================================================================
+  # HEADER
+  # =====================================================================
+
   header-height: "40px"
+  ha-dialog-surface-backdrop-filter: "blur(10px)"
+  mdc-dialog-surface-background: "rgba(0, 0, 0, 0.5)"
 
-  ### ─────────────────────────────────────────
-  ### Main Interface
-  ### ─────────────────────────────────────────
+  # =====================================================================
+  # BACKGROUNDS
+  #
+  # Vanta owns the visual background so we keep everything transparent.
+  # secondary-background-color stays black as a fallback for the brief
+  # moment before Vanta initialises — prevents a white flash on load.
+  # =====================================================================
+
   lovelace-background: "transparent"
-  app-header-background-color: "rgba(255, 255, 255, 0.04)"
-  primary-background-color: "#0b0b14"
-  secondary-background-color: "#0f0f1a"
-  rgb-secondary-background-color: "15, 15, 26"
+  primary-background-color: "transparent"
+  secondary-background-color: "#000000"
+  rgb-secondary-background-color: "0, 0, 0"
+  app-header-background-color: "rgba(0, 0, 0, 0.30)"
 
-  # Card glass surface — the heart of the whole look
-  card-background-color: "rgba(255, 255, 255, 0.06)"
-  ha-card-background: "rgba(255, 255, 255, 0.06)"
-  paper-card-background-color: "rgba(255, 255, 255, 0.06)"
-  paper-listbox-background-color: "rgba(255, 255, 255, 0.06)"
+
+  # =====================================================================
+  # CARD SURFACES
+  #
+  # White-tint glass at 0.07 opacity reads as frosted without blocking
+  # the animation behind. paper-listbox gets a solid dark background
+  # because transparent dropdowns are completely unreadable over Vanta.
+  # =====================================================================
+
+  card-background-color: "rgba(255, 255, 255, 0.07)"
+  ha-card-background: "rgba(255, 255, 255, 0.07)"
+  ha-card-backdrop-filter: "blur(10px)"
+  ha-header-bar-backdrop-filter: "blur(10px)"
+  paper-card-background-color: "rgba(255, 255, 255, 0.07)"
   rgb-card-background-color: "255, 255, 255"
+  paper-listbox-background-color: "rgba(18, 10, 35, 0.97)"
 
-  primary-color: "#7c5cfc"
-  disabled-primary-color: "rgba(124, 92, 252, 0.35)"
-  light-primary-color: "#b89fff"
+
+  # =====================================================================
+  # ACCENT / PRIMARY COLORS
+  #
+  # Derived from Vanta color2 (0x784bc3), brightened to #8a5fd4 so it
+  # reads well as a foreground accent on the dark background.
+  # rgb-primary-color is needed by HA components that build rgba() values
+  # dynamically from the raw RGB channel numbers.
+  # =====================================================================
+
+  primary-color: "#8a5fd4"
+  disabled-primary-color: "rgba(138, 95, 212, 0.30)"
+  light-primary-color: "#c4a8ff"
+  accent-color: "#8a5fd4"
+  rgb-primary-color: "138, 95, 212"
+  rgb-accent-color: "138, 95, 212"
 
   divider-color: "rgba(255, 255, 255, 0.08)"
-  markdown-code-background-color: "rgba(124, 92, 252, 0.12)"
-  ha-color-form-background: "rgba(255, 255, 255, 0.08)"
-  wa-color-neutral-fill-normal: "rgba(255, 255, 255, 0.08)"
-  ha-color-form-background-hover: "rgba(255, 255, 255, 0.12)"
+  markdown-code-background-color: "rgba(120, 75, 195, 0.18)"
+  ha-color-form-background: "rgba(18, 10, 35, 0.90)"
+  wa-color-neutral-fill-normal: "rgba(18, 10, 35, 0.90)"
+  ha-color-form-background-hover: "rgba(30, 18, 55, 0.95)"
 
-  ### ─────────────────────────────────────────
-  ### Text
-  ### ─────────────────────────────────────────
-  primary-text-color: "#e8e4ff"
-  secondary-text-color: "rgba(220, 210, 255, 0.60)"
-  text-primary-color: "#e8e4ff"
-  disabled-text-color: "rgba(200, 190, 240, 0.30)"
 
-  ### ─────────────────────────────────────────
-  ### Sidebar
-  ### ─────────────────────────────────────────
+  # =====================================================================
+  # SEMANTIC COLORS
+  #
+  # HA uses these for warnings, errors, and success states across the
+  # entire UI — automations, alerts, logs, entity status badges etc.
+  # Without these, HA falls back to jarring defaults.
+  # =====================================================================
+
+  error-color: "#f87171"
+  warning-color: "#fbbf24"
+  success-color: "#4ade80"
+  info-color: "#60a5fa"
+  rgb-error-color: "248, 113, 113"
+  rgb-warning-color: "251, 191, 36"
+  rgb-success-color: "74, 222, 128"
+  rgb-info-color: "96, 165, 250"
+
+
+  # =====================================================================
+  # TEXT
+  #
+  # Primary is full white for max contrast on the dark Vanta background.
+  # Secondary is soft lavender-white — visible but not competing with
+  # primary labels. rgb-primary-text-color is used by some HA components.
+  # =====================================================================
+
+  primary-text-color: "#ffffff"
+  secondary-text-color: "rgba(220, 210, 255, 0.70)"
+  text-primary-color: "#ffffff"
+  disabled-text-color: "rgba(200, 190, 240, 0.35)"
+  rgb-primary-text-color: "255, 255, 255"
+
+
+  # =====================================================================
+  # SIDEBAR
+  #
+  # Enough opacity to keep text readable while still showing the Vanta
+  # animation through the frosted glass.
+  # =====================================================================
+
   sidebar-icon-color: "rgba(220, 210, 255, 0.60)"
-  sidebar-text-color: "rgba(220, 210, 255, 0.80)"
-  sidebar-background-color: "rgba(15, 12, 28, 0.70)"
-  sidebar-selected-background-color: "rgba(124, 92, 252, 0.18)"
-  sidebar-selected-icon-color: "#b89fff"
-  sidebar-selected-text-color: "#e8e4ff"
+  sidebar-text-color: "rgba(230, 225, 255, 0.88)"
+  sidebar-background-color: "rgba(0, 0, 0, 0.50)"
+  sidebar-selected-background-color: "rgba(120, 75, 195, 0.25)"
+  sidebar-selected-icon-color: "#c4a8ff"
+  sidebar-selected-text-color: "#ffffff"
 
-  ### ─────────────────────────────────────────
-  ### States & Badges
-  ### ─────────────────────────────────────────
-  state-icon-color: "rgba(220, 210, 255, 0.55)"
-  state-icon-active-color: "#7c5cfc"
+
+  # =====================================================================
+  # ENTITY STATE ICONS
+  # =====================================================================
+
+  state-icon-color: "rgba(210, 200, 255, 0.60)"
+  state-icon-active-color: "#9b6fe0"
   state-icon-unavailable-color: "rgba(200, 190, 240, 0.25)"
 
-  ### ─────────────────────────────────────────
-  ### Sliders
-  ### ─────────────────────────────────────────
-  paper-slider-knob-color: "#b89fff"
-  paper-slider-knob-start-color: "#b89fff"
-  paper-slider-pin-color: "#7c5cfc"
-  paper-slider-active-color: "#7c5cfc"
-  paper-slider-secondary-color: "rgba(124, 92, 252, 0.30)"
 
-  ### ─────────────────────────────────────────
-  ### Labels
-  ### ─────────────────────────────────────────
-  label-badge-background-color: "rgba(124, 92, 252, 0.20)"
-  label-badge-text-color: "#e8e4ff"
-  label-badge-red: "rgba(220, 60, 60, 0.30)"
-  label-badge-yellow: "rgba(245, 158, 11, 0.80)"
+  # =====================================================================
+  # SLIDERS
+  # =====================================================================
 
-  ### ─────────────────────────────────────────
-  ### Cards
-  ### ─────────────────────────────────────────
+  paper-slider-knob-color: "#c4a8ff"
+  paper-slider-knob-start-color: "#c4a8ff"
+  paper-slider-pin-color: "#8a5fd4"
+  paper-slider-active-color: "#8a5fd4"
+  paper-slider-secondary-color: "rgba(138, 95, 212, 0.30)"
+
+
+  # =====================================================================
+  # LABEL BADGES
+  # =====================================================================
+
+  label-badge-background-color: "rgba(120, 75, 195, 0.25)"
+  label-badge-text-color: "#ffffff"
+  label-badge-red: "rgba(248, 113, 113, 0.30)"
+  label-badge-yellow: "rgba(251, 191, 36, 0.85)"
+
+
+  # =====================================================================
+  # CARDS
+  #
+  # Box shadow is deliberately not set via token — it's controlled in
+  # card-mod-card so the hover glow can be added without fighting an
+  # existing !important: none declaration.
+  # =====================================================================
+
   ha-card-border-radius: "16px"
   ha-card-border-width: "0.5px"
   ha-card-border-color: "rgba(255, 255, 255, 0.13)"
-  ha-card-box-shadow: "none"
-  paper-card-header-color: "#e8e4ff"
+  paper-card-header-color: "#ffffff"
   mush-chip-border-radius: "10px"
   chip-border-radius: "10px"
   ha-badge-border-radius: "8px"
 
-  ### ─────────────────────────────────────────
-  ### Toggles
-  ### ─────────────────────────────────────────
+
+
+  # =====================================================================
+  # MUSHROOM CARDS
+  #
+  # Mushroom uses its own --mush-* CSS variables, completely separate from
+  # HA's theme token system. Without these, Mushroom chips and cards
+  # render with their own defaults and ignore this theme entirely.
+  # =====================================================================
+
+  mush-color-purple: "138, 95, 212"
+  mush-rgb-purple: "138, 95, 212"
+  mush-color-card-background: "rgba(255, 255, 255, 0.07)"
+  mush-card-primary-font-size: "14px"
+  mush-card-secondary-font-size: "12px"
+  mush-card-primary-color: "rgb(255, 255, 255)"
+  mush-card-secondary-color: "rgba(220, 210, 255, 0.70)"
+  mush-chip-background: "rgba(255, 255, 255, 0.07)"
+  mush-chip-border-color: "rgba(255, 255, 255, 0.13)"
+  mush-chip-box-shadow: "none"
+  mush-chip-font-size: "12px"
+  mush-chip-icon-size: "18px"
+  mush-chip-height: "32px"
+  mush-chip-padding: "0 10px"
+  mush-control-border-radius: "12px"
+
+
+  # =====================================================================
+  # TOGGLES
+  # =====================================================================
+
   paper-toggle-button-checked-button-color: "#ffffff"
-  paper-toggle-button-checked-bar-color: "#7c5cfc"
-  paper-toggle-button-unchecked-button-color: "rgba(255, 255, 255, 0.70)"
+  paper-toggle-button-checked-bar-color: "#8a5fd4"
+  paper-toggle-button-unchecked-button-color: "rgba(255, 255, 255, 0.65)"
   paper-toggle-button-unchecked-bar-color: "rgba(255, 255, 255, 0.12)"
 
-  ### ─────────────────────────────────────────
-  ### Tables
-  ### ─────────────────────────────────────────
-  table-row-background-color: "rgba(255, 255, 255, 0.04)"
-  table-row-alternative-background-color: "rgba(255, 255, 255, 0.07)"
-  data-table-background-color: "#0b0b14"
 
-  ### ─────────────────────────────────────────
-  ### Switches
-  ### ─────────────────────────────────────────
+  # =====================================================================
+  # SWITCHES (new HA switch component, separate from paper-toggle)
+  # =====================================================================
+
+  switch-checked-color: "#8a5fd4"
+  switch-checked-button-color: "#ffffff"
+  switch-checked-track-color: "#8a5fd4"
   switch-unchecked-button-color: "rgba(255, 255, 255, 0.50)"
   switch-unchecked-track-color: "rgba(255, 255, 255, 0.10)"
 
-  ### ─────────────────────────────────────────
-  ### Inputs
-  ### ─────────────────────────────────────────
-  input-fill-color: "rgba(255, 255, 255, 0.06)"
-  input-label-ink-color: "rgba(220, 210, 255, 0.60)"
-  input-ink-color: "#e8e4ff"
+
+  # =====================================================================
+  # TABLES
+  #
+  # data-table-background-color covers the full-page entity/device lists
+  # in Settings. Needs to be solid-ish so rows are readable.
+  # =====================================================================
+
+  table-row-background-color: "rgba(255, 255, 255, 0.04)"
+  table-row-alternative-background-color: "rgba(255, 255, 255, 0.07)"
+  data-table-background-color: "rgba(8, 4, 18, 0.96)"
+
+
+  # =====================================================================
+  # TEXT INPUTS & FORM FIELDS
+  # =====================================================================
+
+  input-fill-color: "rgba(18, 10, 35, 0.80)"
+  input-label-ink-color: "rgba(210, 200, 255, 0.65)"
+  input-ink-color: "#ffffff"
   input-disabled-fill-color: "rgba(255, 255, 255, 0.03)"
   input-disabled-ink-color: "rgba(200, 190, 240, 0.30)"
-  app-header-edit-background-color: "rgba(255, 255, 255, 0.06)"
+  app-header-edit-background-color: "rgba(18, 10, 35, 0.80)"
 
-  ### ─────────────────────────────────────────
-  ### Card Mod — CSS Injections
-  ### ─────────────────────────────────────────
 
-  # ── Root: injects the full-page background gradient + glow orbs ──
+  # =====================================================================
+  # CARD MOD — CSS INJECTIONS
+  #
+  # card-mod-root    global styles in the main document
+  # card-mod-sidebar styles scoped to the sidebar shadow DOM
+  # card-mod-card    styles applied to every ha-card element
+  # =====================================================================
   card-mod-root: |
+    /* Let the Vanta canvas show through the main layout */
+    ha-app-layout {
+      background: transparent !important;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    /* Tab bar — transparent so the header glass shows through */
     paper-tabs {
       background-color: transparent !important;
-    }
-    ha-app-layout {
-      background:
-        radial-gradient(ellipse 70vw 60vh at 15% 20%, rgba(99, 60, 220, 0.28) 0%, transparent 65%),
-        radial-gradient(ellipse 55vw 55vh at 85% 80%, rgba(20, 100, 200, 0.20) 0%, transparent 65%),
-        radial-gradient(ellipse 40vw 40vh at 50% 50%, rgba(45, 180, 180, 0.08) 0%, transparent 70%),
-        linear-gradient(145deg, #0b0b16 0%, #111028 35%, #0d1520 70%, #0a0a12 100%) !important;
-      background-attachment: fixed !important;
+      backdrop-filter: blur(16px) !important;
     }
 
-  # ── Sidebar: glass panel with backdrop blur ──
+    /* Top header bar */
+    .header {
+      background: rgba(0, 0, 0, 0.30) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      border-bottom: 0.5px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    /* Slim purple scrollbar — replaces the chunky browser default */
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(138, 95, 212, 0.45);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(138, 95, 212, 0.70);
+    }
+
+    /* ── Dropdowns & menus ──────────────────────────────────────────── */
+
+    /* paper-* dropdowns (older HA components) */
+    paper-listbox,
+    paper-menu,
+    paper-dropdown-menu,
+    paper-dropdown-menu-light {
+      background: rgba(18, 10, 35, 0.97) !important;
+      border: 0.5px solid rgba(255, 255, 255, 0.10) !important;
+      border-radius: 10px !important;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    paper-item,
+    paper-icon-item {
+      color: rgba(220, 210, 255, 0.90) !important;
+      background: transparent !important;
+      backdrop-filter: blur(16px) !important;
+    }
+    paper-item:hover,
+    paper-icon-item:hover {
+      background: rgba(138, 95, 212, 0.18) !important;
+    }
+
+    /* Material Web Components — used in Settings and most newer HA pages */
+    mwc-list,
+    mwc-menu,
+    mwc-select .mdc-select__menu,
+    .mdc-menu,
+    .mdc-menu-surface {
+      background: rgba(18, 10, 35, 0.97) !important;
+      border: 0.5px solid rgba(255, 255, 255, 0.10) !important;
+      border-radius: 10px !important;
+      backdrop-filter: blur(16px) !important;
+    }
+    mwc-list-item,
+    .mdc-list-item {
+      color: rgba(220, 210, 255, 0.90) !important;
+    }
+    mwc-list-item:hover,
+    .mdc-list-item:hover {
+      background: rgba(138, 95, 212, 0.18) !important;
+    }
+    /* Selected item highlight in dropdowns */
+    .mdc-list-item--selected,
+    .mdc-list-item--activated {
+      color: #c4a8ff !important;
+      background: rgba(138, 95, 212, 0.22) !important;
+    }
+
+    /* ha-select and ha-combo-box overlay containers */
+    ha-select .mdc-select__menu,
+    ha-combo-box [part="overlay"],
+    vaadin-combo-box-overlay,
+    vaadin-combo-box-dropdown {
+      background: rgba(18, 10, 35, 0.97) !important;
+      border: 0.5px solid rgba(255, 255, 255, 0.10) !important;
+      border-radius: 10px !important;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    /* Individual items inside vaadin combo-box dropdowns */
+    vaadin-combo-box-item,
+    vaadin-item {
+      color: rgba(220, 210, 255, 0.90) !important;
+      background: transparent !important;
+      backdrop-filter: blur(16px) !important;
+    }
+    vaadin-combo-box-item:hover,
+    vaadin-item:hover {
+      background: rgba(138, 95, 212, 0.18) !important;
+      backdrop-filter: blur(16px) !important;
+    }
+    vaadin-combo-box-item[selected],
+    vaadin-item[selected] {
+      color: #c4a8ff !important;
+      background: rgba(138, 95, 212, 0.22) !important;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    /* ── Action menu (long-press / right-click on cards) ────────────── */
+    ha-button-menu,
+    mwc-button-menu {
+      --mdc-theme-surface: rgba(18, 10, 35, 0.97);
+    }
+
+    /* ── Notification toasts ────────────────────────────────────────── */
+    mwc-snackbar,
+    .mdc-snackbar__surface {
+      background: rgba(18, 10, 35, 0.95) !important;
+      border: 0.5px solid rgba(255, 255, 255, 0.10) !important;
+      border-radius: 10px !important;
+      color: #ffffff !important;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    /* ── More-info dialog (tap any card to open) ────────────────────── */
+    ha-more-info-dialog,
+    ha-dialog {
+      --mdc-dialog-scrim-color: rgba(0, 0, 0, 0.72);
+    }
+    ha-dialog .mdc-dialog__surface,
+    ha-more-info-dialog .mdc-dialog__surface {
+      background: rgba(8, 4, 18, 0.93) !important;
+      backdrop-filter: blur(32px) !important;
+      -webkit-backdrop-filter: blur(32px) !important;
+      border: 0.5px solid rgba(255, 255, 255, 0.12) !important;
+      border-radius: 20px !important;
+      box-shadow: 0 16px 64px rgba(0, 0, 0, 0.80) !important;
+    }
+    .mdc-dialog .mdc-dialog__title,
+    .mdc-dialog .header_title {
+      color: #ffffff !important;
+    }
+    .mdc-dialog .mdc-dialog__content {
+      color: rgba(220, 210, 255, 0.80) !important;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    /* Cards that appear inside the more-info dialog (e.g. history graph)
+       need a slightly darker surface so they stand out from the dialog bg */
+    ha-more-info-dialog ha-card,
+    ha-dialog ha-card {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    /* Tabs inside more-info dialogs (e.g. light / thermostat tabs) */
+    ha-more-info-dialog mwc-tab-bar,
+    ha-dialog mwc-tab-bar {
+      background: transparent !important;
+      backdrop-filter: blur(16px) !important;
+    }
+    ha-more-info-dialog mwc-tab,
+    ha-dialog mwc-tab {
+      --mdc-theme-primary: #c4a8ff;
+      color: rgba(220, 210, 255, 0.70) !important;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    /* ── Settings pages ─────────────────────────────────────────────── */
+
+    /* Settings row backgrounds — these show white by default */
+    ha-settings-row,
+    .card-content ha-settings-row {
+      --settings-row-default-color: rgba(255, 255, 255, 0.03);
+      --settings-row-heading-color: #ffffff;
+      --settings-row-content-color: rgba(220, 210, 255, 0.70);
+      border-bottom: 0.5px solid rgba(255, 255, 255, 0.06) !important;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    /* Expansion panels in Settings (expandable config sections) */
+    ha-expansion-panel {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border: 0.5px solid rgba(255, 255, 255, 0.09) !important;
+      border-radius: 12px !important;
+      margin-bottom: 8px !important;
+      backdrop-filter: blur(10px) !important;
+    }
+    ha-expansion-panel .header {
+      background: transparent !important;
+      color: #ffffff !important;
+      border-bottom: none !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+    }
+
+    /* ── Form controls ──────────────────────────────────────────────── */
+
+    /* Text fields and outlined inputs */
+    ha-textfield,
+    ha-outlined-input,
+    mwc-textfield {
+      --mdc-text-field-fill-color: rgba(18, 10, 35, 0.80);
+      --mdc-text-field-ink-color: #ffffff;
+      --mdc-text-field-label-ink-color: rgba(210, 200, 255, 0.65);
+      --mdc-text-field-outlined-idle-border-color: rgba(255, 255, 255, 0.20);
+      --mdc-text-field-outlined-hover-border-color: rgba(196, 168, 255, 0.50);
+      --mdc-text-field-outlined-disabled-border-color: rgba(255, 255, 255, 0.10);
+    }
+
+    /* Checkboxes */
+    ha-checkbox,
+    mwc-checkbox {
+      --mdc-checkbox-unchecked-color: rgba(255, 255, 255, 0.40);
+      --mdc-checkbox-checked-color: #8a5fd4;
+      --mdc-checkbox-ink-color: #ffffff;
+    }
+
+    /* Radio buttons */
+    ha-radio,
+    mwc-radio {
+      --mdc-radio-unchecked-color: rgba(255, 255, 255, 0.40);
+      --mdc-radio-checked-color: #8a5fd4;
+    }
+
+    /* ── Alert / info banners ───────────────────────────────────────── */
+    ha-alert[alert-type="error"] {
+      --alert-error-color: rgba(248, 113, 113, 0.85);
+      background: rgba(248, 113, 113, 0.10) !important;
+      border: 0.5px solid rgba(248, 113, 113, 0.30) !important;
+      border-radius: 10px !important
+      backdrop-filter: blur(16px) !important;
+    }
+    ha-alert[alert-type="warning"] {
+      background: rgba(251, 191, 36, 0.10) !important;
+      border: 0.5px solid rgba(251, 191, 36, 0.30) !important;
+      border-radius: 10px !important;
+      backdrop-filter: blur(16px) !important;
+    }
+    ha-alert[alert-type="success"] {
+      background: rgba(74, 222, 128, 0.10) !important;
+      border: 0.5px solid rgba(74, 222, 128, 0.30) !important;
+      border-radius: 10px !important;
+      backdrop-filter: blur(16px) !important;
+    }
+    ha-alert[alert-type="info"] {
+      background: rgba(96, 165, 250, 0.10) !important;
+      border: 0.5px solid rgba(96, 165, 250, 0.30) !important;
+      border-radius: 10px !important;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    /* ── Accessibility: respect reduced motion OS preference ────────── */
+    @media (prefers-reduced-motion: reduce) {
+      ha-card,
+      paper-icon-item,
+      mwc-list-item,
+      vaadin-combo-box-item {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+
   card-mod-sidebar: |
+
+    /* Sidebar — frosted glass panel with enough opacity to read text */
     :host {
-      background: rgba(12, 10, 24, 0.65) !important;
-      backdrop-filter: blur(20px) !important;
-      -webkit-backdrop-filter: blur(20px) !important;
+      background: rgb(20 17 25) !important;
+      backdrop-filter: blur(24px) !important;
+      -webkit-backdrop-filter: blur(24px) !important;
       border-right: 0.5px solid rgba(255, 255, 255, 0.08) !important;
     }
+
+    /* Navigation items */
     paper-icon-item[role=option],
     paper-icon-item[aria-role=option] {
       background: transparent !important;
       border-radius: 10px !important;
       margin: 2px 8px !important;
+      padding: 0 8px !important;
       transition: background 0.15s ease !important;
     }
     paper-icon-item[role=option]:hover,
     paper-icon-item[aria-role=option]:hover {
-      background: rgba(255, 255, 255, 0.06) !important;
+      background: rgba(255, 255, 255, 0.07) !important;
     }
 
-  # ── Header: glass bar with blur ──
-  card-mod-view-yaml: |
-    .: |
-      ha-top-app-bar-fixed {
-        backdrop-filter: blur(16px) !important;
-        -webkit-backdrop-filter: blur(16px) !important;
-        border-bottom: 0.5px solid rgba(255, 255, 255, 0.08) !important;
-      }
-
-  # ── Cards: glass surface with hover lift ──
   card-mod-card: |
+
+    /* Glass card base.
+       Box shadow managed here (not via token) so the hover state can
+       add a glow without needing to override an existing !important: none. */
     ha-card {
-      backdrop-filter: blur(12px) !important;
-      -webkit-backdrop-filter: blur(12px) !important;
-      transition: background 0.2s ease, border-color 0.2s ease !important;
+      box-shadow: none !important;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
     }
+
+    /* Hover — brighter surface and violet glow ring */
     ha-card:hover {
-      background: rgba(255, 255, 255, 0.09) !important;
-      border-color: rgba(255, 255, 255, 0.20) !important;
+      background: rgba(255, 255, 255, 0.10) !important;
+      border-color: rgba(196, 168, 255, 0.28) !important;
+      box-shadow:
+        0 0 0 1px rgba(138, 95, 212, 0.22),
+        0 4px 28px rgba(120, 75, 195, 0.16) !important;
     }
