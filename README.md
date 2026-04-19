@@ -18,11 +18,15 @@ Aurora Theme for Home Assistant offers a sleek, modern aesthetic with a focus on
      ```
 
 3. **Load Background Animations:**
+   - Place the `vanta.cells.min.js` file in the `www` folder of your Home Assistant setup. Ensure the path is `/homeassistant/www/vanta.cells.min.js`.
+   - Place the `three.min.js` file in the `www` folder of your Home Assistant setup. Ensure the path is `/homeassistant/www/three.min.js`.
    - Place the `background-animations.js` file in the `www` folder of your Home Assistant setup. Ensure the path is `/homeassistant/www/background-animations.js`.
 
 4. **Activate the Background Animations Resource:**
    - Go to **Settings > Dashboards > Resources** in Home Assistant.
    - Click on **"Add Resource"**.
+   - Enter the path to the JavaScript file: `/local/vanta.cells.min.js`.
+   - Enter the path to the JavaScript file: `/local/three.min.js`.
    - Enter the path to the JavaScript file: `/local/background-animations.js`.
    - Set the resource type to **JavaScript Module**.
    - Click **"Save"**.
