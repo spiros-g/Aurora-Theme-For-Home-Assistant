@@ -1,4 +1,4 @@
-Aurora Theme for Home Assistant offers a sleek, modern aesthetic with a focus on glass-like transparency and dynamic background animations. Designed to enhance your Home Assistant interface, this theme includes subtle gradients, transparent overlays, and refined card styles for a visually appealing experience. The theme features adjustable header height, a customizable sidebar, and elegant color schemes to match your preferences.
+Aurora Glass for Home Assistant offers a sleek, modern aesthetic with a focus on glass-like transparency and dynamic background animations. Designed to enhance your Home Assistant interface, this theme includes subtle gradients, transparent overlays, and refined card styles for a visually appealing experience. The theme features adjustable header height, a customizable sidebar, and elegant color schemes to match your preferences.
 
 **Features:**
 - Glass-like transparency and blur effects
@@ -8,7 +8,7 @@ Aurora Theme for Home Assistant offers a sleek, modern aesthetic with a focus on
 
 **Installation:**
 1. **Copy the Theme Configuration:**
-   - Save the theme configuration as `aurora-theme.yaml` or another preferred name in your Home Assistant `themes` directory.
+   - Save the theme configuration as `aurora-glass.yaml` or another preferred name in your Home Assistant `themes` directory.
 
 2. **Add the Theme to Home Assistant:**
    - In `configuration.yaml`, include all theme configuration files by adding the following:
