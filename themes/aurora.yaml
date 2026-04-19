@@ -1,91 +1,198 @@
-# Aurora Theme for Home Assistant
-# Version 1.0
-# Created by Spiros G
+# Aurora Glass Theme for Home Assistant
+# Version 2.0 — Glassmorphism Edition
+# Original by Spiros G · Glass adaptation by Claude
+#
+# REQUIREMENTS:
+#   - HACS frontend plugin: card-mod
+#   - A background image or CSS gradient set on your Lovelace view
+#     (see card-mod-root below — it injects the gradient automatically)
+#
+# INSTALLATION:
+#   1. Place this file in /config/themes/aurora-glass.yaml
+#   2. In configuration.yaml ensure: frontend: themes: !include_dir_merge_named themes
+#   3. Restart Home Assistant
+#   4. Profile → Theme → select "Aurora Glass"
 
-Aurora:
-  dialog-backdrop-filter: "blur(5px)"
+Aurora Glass:
+  ### ─────────────────────────────────────────
+  ### Effects
+  ### ─────────────────────────────────────────
+  dialog-backdrop-filter: "blur(20px)"
   iron-overlay-backdrop-opacity: "1"
-  iron-overlay-backdrop-background-color: "rgba(0, 0, 0, 0.32)"
-  card-mod-theme: "Aurora"
-  ### Header Height ###
-  header-height: 40px
-  ### Main Interface Colors ###
-  lovelace-background: "transparent"
-  app-header-background-color: "rgb(100, 100, 100, 0.15)"
-  card-background-color: "rgba(0, 0, 0, 0.5)"
-  primary-color: "#b5b3b3"
-  disabled-primary-color: "#ff0000"
-  light-primary-color: "white"
-  primary-background-color: "#1c1c1c"
-  secondary-background-color: "#000000"
-  rgb-secondary-background-color: "0, 0, 0"
-  divider-color: "#31313157"
-  markdown-code-background-color: "rgba(30, 39, 71, 0.5)"
-  ### Text ###
-  primary-text-color: "white"
-  secondary-text-color: "white"
-  text-primary-color: "white"
-  disabled-text-color: "#424242"
-  ### Sidebar Menu ###
-  sidebar-icon-color: "#e3e3e3"
-  sidebar-text-color: "white"
-  sidebar-selected-background-color: "rgb(100, 100, 100, 0.15)"
-  sidebar-selected-icon-color: "#FFFFFF"
-  sidebar-selected-text-color: "#FFFFFF"
-  sidebar-background-color: "rgb(100, 100, 100, 0.15)"
-  ### States and Badges ###
-  state-icon-color: "#b5b3b3"
-  state-icon-active-color: "#FBCD41"
-  state-icon-unavailable-color: "#424242"
-  ### Sliders ###
-  paper-slider-knob-color: "#b5b3b3"
-  paper-slider-knob-start-color: "#b5b3b3"
-  paper-slider-pin-color: "#b5b3b3"
-  paper-slider-active-color: "#b5b3b3"
-  paper-slider-secondary-color: "#FFFFFF"
-  ### Labels ###
-  label-badge-background-color: "rgba(30, 39, 71, 0.5)"
-  label-badge-text-color: "#FFFFFF"
-  label-badge-red: "#31313157"
-  label-badge-yellow: "#DCA304"
-  ### Cards ###
-  ha-card-border-radius: "5px"
-  ha-card-background: "rgb(100, 100, 100, 0.15)"
-  #ha-card-backdrop-filter: "blur(40px)"
-  #ha-card-box-shadow: "0px 30px 60px rgba(0,0,0,0.25), inset 0 0 0 0.5px rgba(255,255,255,0.2)"
-  paper-card-header-color: "white"
-  paper-card-background-color: "rgb(100, 100, 100, 0.15)"
-  paper-listbox-background-color: "rgb(100, 100, 100, 0.15)"
-  rgb-card-background-color: "0, 0, 0"
-  mush-chip-border-radius: "5px"
-  chip-border-radius: "5px"
-  ha-badge-border-radius: "5px"
-  ### Toggles ###
-  paper-toggle-button-checked-button-color: "#FCFCFC"
-  paper-toggle-button-checked-bar-color: "white"
-  paper-toggle-button-unchecked-button-color: "#FCFCFC"
-  paper-toggle-button-unchecked-bar-color: "#303F79"
-  ### Table row ###
-  table-row-background-color: "rgb(100, 100, 100, 0.15)"
-  table-row-alternative-background-color: "rgb(100, 100, 100, 0.15)"
-  data-table-background-color: "rgb(28, 28, 28)"
-  ### Switches ###
-  switch-unchecked-button-color: "#31313157"
-  switch-unchecked-track-color: "#31313157"
-  ### Inputs ###
-  input-fill-color: "rgba(0, 0, 0, 0.5)"
-  input-label-ink-color: "#b5b3b3"
-  input-ink-color: "#b5b3b3"
-  input-disabled-fill-color: "rgba(0, 0, 0, 0.33)"
-  input-disabled-ink-color: "#ff0000"
-  app-header-edit-background-color: "rgb(100, 100, 100, 0.15)"
+  iron-overlay-backdrop-background-color: "rgba(0, 0, 0, 0.55)"
+  card-mod-theme: "Aurora Glass"
 
+  ### ─────────────────────────────────────────
+  ### Header
+  ### ─────────────────────────────────────────
+  header-height: "40px"
+
+  ### ─────────────────────────────────────────
+  ### Main Interface
+  ### ─────────────────────────────────────────
+  lovelace-background: "transparent"
+  app-header-background-color: "rgba(255, 255, 255, 0.04)"
+  primary-background-color: "#0b0b14"
+  secondary-background-color: "#0f0f1a"
+  rgb-secondary-background-color: "15, 15, 26"
+
+  # Card glass surface — the heart of the whole look
+  card-background-color: "rgba(255, 255, 255, 0.06)"
+  ha-card-background: "rgba(255, 255, 255, 0.06)"
+  paper-card-background-color: "rgba(255, 255, 255, 0.06)"
+  paper-listbox-background-color: "rgba(255, 255, 255, 0.06)"
+  rgb-card-background-color: "255, 255, 255"
+
+  primary-color: "#7c5cfc"
+  disabled-primary-color: "rgba(124, 92, 252, 0.35)"
+  light-primary-color: "#b89fff"
+
+  divider-color: "rgba(255, 255, 255, 0.08)"
+  markdown-code-background-color: "rgba(124, 92, 252, 0.12)"
+  ha-color-form-background: "rgba(255, 255, 255, 0.08)"
+  wa-color-neutral-fill-normal: "rgba(255, 255, 255, 0.08)"
+  ha-color-form-background-hover: "rgba(255, 255, 255, 0.12)"
+
+  ### ─────────────────────────────────────────
+  ### Text
+  ### ─────────────────────────────────────────
+  primary-text-color: "#e8e4ff"
+  secondary-text-color: "rgba(220, 210, 255, 0.60)"
+  text-primary-color: "#e8e4ff"
+  disabled-text-color: "rgba(200, 190, 240, 0.30)"
+
+  ### ─────────────────────────────────────────
+  ### Sidebar
+  ### ─────────────────────────────────────────
+  sidebar-icon-color: "rgba(220, 210, 255, 0.60)"
+  sidebar-text-color: "rgba(220, 210, 255, 0.80)"
+  sidebar-background-color: "rgba(15, 12, 28, 0.70)"
+  sidebar-selected-background-color: "rgba(124, 92, 252, 0.18)"
+  sidebar-selected-icon-color: "#b89fff"
+  sidebar-selected-text-color: "#e8e4ff"
+
+  ### ─────────────────────────────────────────
+  ### States & Badges
+  ### ─────────────────────────────────────────
+  state-icon-color: "rgba(220, 210, 255, 0.55)"
+  state-icon-active-color: "#7c5cfc"
+  state-icon-unavailable-color: "rgba(200, 190, 240, 0.25)"
+
+  ### ─────────────────────────────────────────
+  ### Sliders
+  ### ─────────────────────────────────────────
+  paper-slider-knob-color: "#b89fff"
+  paper-slider-knob-start-color: "#b89fff"
+  paper-slider-pin-color: "#7c5cfc"
+  paper-slider-active-color: "#7c5cfc"
+  paper-slider-secondary-color: "rgba(124, 92, 252, 0.30)"
+
+  ### ─────────────────────────────────────────
+  ### Labels
+  ### ─────────────────────────────────────────
+  label-badge-background-color: "rgba(124, 92, 252, 0.20)"
+  label-badge-text-color: "#e8e4ff"
+  label-badge-red: "rgba(220, 60, 60, 0.30)"
+  label-badge-yellow: "rgba(245, 158, 11, 0.80)"
+
+  ### ─────────────────────────────────────────
+  ### Cards
+  ### ─────────────────────────────────────────
+  ha-card-border-radius: "16px"
+  ha-card-border-width: "0.5px"
+  ha-card-border-color: "rgba(255, 255, 255, 0.13)"
+  ha-card-box-shadow: "none"
+  paper-card-header-color: "#e8e4ff"
+  mush-chip-border-radius: "10px"
+  chip-border-radius: "10px"
+  ha-badge-border-radius: "8px"
+
+  ### ─────────────────────────────────────────
+  ### Toggles
+  ### ─────────────────────────────────────────
+  paper-toggle-button-checked-button-color: "#ffffff"
+  paper-toggle-button-checked-bar-color: "#7c5cfc"
+  paper-toggle-button-unchecked-button-color: "rgba(255, 255, 255, 0.70)"
+  paper-toggle-button-unchecked-bar-color: "rgba(255, 255, 255, 0.12)"
+
+  ### ─────────────────────────────────────────
+  ### Tables
+  ### ─────────────────────────────────────────
+  table-row-background-color: "rgba(255, 255, 255, 0.04)"
+  table-row-alternative-background-color: "rgba(255, 255, 255, 0.07)"
+  data-table-background-color: "#0b0b14"
+
+  ### ─────────────────────────────────────────
+  ### Switches
+  ### ─────────────────────────────────────────
+  switch-unchecked-button-color: "rgba(255, 255, 255, 0.50)"
+  switch-unchecked-track-color: "rgba(255, 255, 255, 0.10)"
+
+  ### ─────────────────────────────────────────
+  ### Inputs
+  ### ─────────────────────────────────────────
+  input-fill-color: "rgba(255, 255, 255, 0.06)"
+  input-label-ink-color: "rgba(220, 210, 255, 0.60)"
+  input-ink-color: "#e8e4ff"
+  input-disabled-fill-color: "rgba(255, 255, 255, 0.03)"
+  input-disabled-ink-color: "rgba(200, 190, 240, 0.30)"
+  app-header-edit-background-color: "rgba(255, 255, 255, 0.06)"
+
+  ### ─────────────────────────────────────────
+  ### Card Mod — CSS Injections
+  ### ─────────────────────────────────────────
+
+  # ── Root: injects the full-page background gradient + glow orbs ──
   card-mod-root: |
     paper-tabs {
       background-color: transparent !important;
     }
+    ha-app-layout {
+      background:
+        radial-gradient(ellipse 70vw 60vh at 15% 20%, rgba(99, 60, 220, 0.28) 0%, transparent 65%),
+        radial-gradient(ellipse 55vw 55vh at 85% 80%, rgba(20, 100, 200, 0.20) 0%, transparent 65%),
+        radial-gradient(ellipse 40vw 40vh at 50% 50%, rgba(45, 180, 180, 0.08) 0%, transparent 70%),
+        linear-gradient(145deg, #0b0b16 0%, #111028 35%, #0d1520 70%, #0a0a12 100%) !important;
+      background-attachment: fixed !important;
+    }
 
+  # ── Sidebar: glass panel with backdrop blur ──
   card-mod-sidebar: |
-    paper-icon-item[role=option], paper-icon-item[aria-role=option] {
-      background: var(--ha-card-background) !important;
+    :host {
+      background: rgba(12, 10, 24, 0.65) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border-right: 0.5px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    paper-icon-item[role=option],
+    paper-icon-item[aria-role=option] {
+      background: transparent !important;
+      border-radius: 10px !important;
+      margin: 2px 8px !important;
+      transition: background 0.15s ease !important;
+    }
+    paper-icon-item[role=option]:hover,
+    paper-icon-item[aria-role=option]:hover {
+      background: rgba(255, 255, 255, 0.06) !important;
+    }
+
+  # ── Header: glass bar with blur ──
+  card-mod-view-yaml: |
+    .: |
+      ha-top-app-bar-fixed {
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        border-bottom: 0.5px solid rgba(255, 255, 255, 0.08) !important;
+      }
+
+  # ── Cards: glass surface with hover lift ──
+  card-mod-card: |
+    ha-card {
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+      transition: background 0.2s ease, border-color 0.2s ease !important;
+    }
+    ha-card:hover {
+      background: rgba(255, 255, 255, 0.09) !important;
+      border-color: rgba(255, 255, 255, 0.20) !important;
     }
